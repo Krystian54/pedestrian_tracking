@@ -1,7 +1,12 @@
 data/854100-hd_1920_1080_25fps.mp4
 data/3647789-hd_1920_1080_30fps.mp4
-results/output.mp4
+/results
+/trash
 yolov8n.pt
+yolov8n-seg.pt
+yolov8s-seg.pt
+yolov8m-seg.pt
+yolov8x-seg.pt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
