@@ -1,13 +1,12 @@
-# Skrypt do dokonywania detekcji pieszych na nagraniu za pomocą sieci YOLO
-
-
-from ultralytics import YOLO
 import cv2
+from ultralytics import YOLO
+
+# skrypt do dokonywania detekcji pieszych na nagraniu za pomocą sieci YOLO
+
 
 model = YOLO("yolov8n.pt")
 
-cap = cv2.VideoCapture("data/3647789-hd_1920_1080_30fps.mp4")
-# cap = cv2.VideoCapture("data/854100-hd_1920_1080_25fps.mp4")
+cap = cv2.VideoCapture("data/wideo_1.mp4")
 
 while cap.isOpened():
     ret, frame = cap.read()

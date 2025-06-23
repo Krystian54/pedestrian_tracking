@@ -1,12 +1,10 @@
-# Skrypt do dokonywania detekcji pieszych na nagraniu za pomocą sieci YOLO oraz ich identyfikacji z użyciem bytetrack
-
-from ultralytics import YOLO
 import cv2
 import yaml
+import streamlit as st
+from ultralytics import YOLO
 
 
 model = YOLO("yolov8n.pt")
-
 
 def bytetrack_algorithm(input_path, output_path, iou):
 
@@ -18,6 +16,8 @@ def bytetrack_algorithm(input_path, output_path, iou):
     fps = cap.get(cv2.CAP_PROP_FPS)
     out = cv2.VideoWriter(output_path, cv2.VideoWriter_fourcc(*'mp4v'), fps, (frame_width, frame_height))
 
+    # wyświetlenie obrazu w streamlit
+    frame_slot = st.empty()
 
     while cap.isOpened():
         ret, frame = cap.read()
@@ -42,16 +42,15 @@ def bytetrack_algorithm(input_path, output_path, iou):
                         cv2.putText(frame, f"ID {track_id}", (x1, y1 - 10), 
                                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
         
-        cv2.imshow("YOLOv8 + DeepSORT", frame)
-
-        out.write(frame)  # zapis
+        # cv2.imshow("YOLOv8 + DeepSORT", frame)
+        # wyświetlenie obrazu w streamlit
+        frame_slot.image(frame, channels="BGR")
+        out.write(frame)
         
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
+        # if cv2.waitKey(1) & 0xFF == ord('q'):
+        #     break
 
-
-    out.release() # zapis
-
+    out.release()
     cap.release()
     cv2.destroyAllWindows()
 
@@ -63,8 +62,8 @@ def set_bytetrack_parameters(
     new_track_thresh=0.25,
     track_buffer=300,
     match_thresh=0.9,
-    fuse_score=True
-):
+    fuse_score=True):
+
     data = {
         "tracker_type": tracker_type,
         "track_high_thresh": track_high_thresh,
@@ -72,8 +71,7 @@ def set_bytetrack_parameters(
         "new_track_thresh": new_track_thresh,
         "track_buffer": track_buffer,
         "match_thresh": match_thresh,
-        "fuse_score": fuse_score
-    }
+        "fuse_score": fuse_score}
 
     with open(path, "w") as plik:
         yaml.dump(data, plik, sort_keys=False)

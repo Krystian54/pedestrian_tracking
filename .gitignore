@@ -3,6 +3,7 @@ data/3647789-hd_1920_1080_30fps.mp4
 /data
 /results
 /trash
+/trash_2
 yolov8n.pt
 yolov8n-seg.pt
 yolov8s-seg.pt
